@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DynamicTest;
 /**
  * JUnit testing Stack class. 
  * @author Mike McKee
+ *
  */
 public class StackTest {
     private static double TOLERANCE = 0.000001;   //constant tolerance number
@@ -26,6 +27,7 @@ public class StackTest {
     @Test
     public void testConstructor() {
         //Testing Stack of Doubles
+        // My own comment
         Stack<Double> testDouble = new Stack<>();
         //assertNotNull("Should not be null", testDouble);
         assertNotNull(testDouble, "Should not be null");
