@@ -1,0 +1,374 @@
+/*
+ * Mike McKee
+ * CPSC 5002, Seattle University 
+ * This is free an unencumbered software released into public domain. 
+ */
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+           // needed for junit
+
+/**
+ * JUnit testing for Queue class.
+ * @author Mike McKee
+ */
+public class QueueTest {
+    private static double TOLERANCE = 0.000001;    //constant tolerance number
+
+    /**
+     * Test method for constructor.
+     */
+    @Test
+    public void testConstructor() {
+        //Testing Queue of Doubles
+        Queue<Double> testDouble = new Queue<>();
+        assertNotNull("Should not be null", testDouble);
+        
+        //Testing Queue of Strings
+        Queue<String> testString = new Queue<>();
+        assertNotNull("Should not be null", testString);
+    }
+
+    /**
+     * Test method for Enqueue method.
+     */
+    @Test
+    public void testEnqueue() {
+        //Testing Queue of Doubles
+        Queue<Double> testDouble = new Queue<>();
+        testDouble.enqueue(1.0);
+        assertEquals("Should equal 1.0", 1.0, testDouble.dequeue(), TOLERANCE);
+        testDouble.enqueue(2.0);
+        assertEquals("Should equal 2.0", 2.0, testDouble.dequeue(), TOLERANCE);
+        testDouble.enqueue(3.0);
+        assertEquals("Should equal 3.0", 3.0, testDouble.dequeue(), TOLERANCE);
+        
+        testDouble.enqueue(1.0);
+        testDouble.enqueue(2.0);
+        testDouble.enqueue(3.0);
+        assertEquals("Should equal 1.0", 1.0, testDouble.dequeue(), TOLERANCE);
+        assertEquals("Should equal 2.0", 2.0, testDouble.dequeue(), TOLERANCE);
+        assertEquals("Should equal 3.0", 3.0, testDouble.dequeue(), TOLERANCE);
+        
+        //Testing Queue of Strings
+        Queue<String> testString= new Queue<>();
+        testString.enqueue("Hello");
+        assertEquals("Should equal 'Hello'", "Hello", testString.dequeue());
+        testString.enqueue("World");
+        assertEquals("Should equal 'World'", "World", testString.dequeue());
+        testString.enqueue("!");
+        assertEquals("Should equal '!'", "!", testString.dequeue());
+        
+        testString.enqueue("Hello");
+        testString.enqueue("World");
+        testString.enqueue("!");
+        assertEquals("Should equal 'Hello'", "Hello", testString.dequeue());
+        assertEquals("Should equal 'World'", "World", testString.dequeue());
+        assertEquals("Should equal '!'", "!", testString.dequeue());
+    }
+
+    /**
+     * Test method for Dequeue method.
+     */
+    @Test
+    public void testDequeue() {  
+        //Testing Queue of Doubles
+        Queue<Double> testDouble= new Queue<>();
+        testDouble.enqueue(1.0);
+        testDouble.enqueue(2.0);
+        testDouble.enqueue(3.0);
+        assertEquals("Should equal 1.0", 1.0, testDouble.dequeue(), TOLERANCE);
+        assertEquals("Should equal 2.0", 2.0, testDouble.dequeue(), TOLERANCE);
+        assertEquals("Should equal 3.0", 3.0, testDouble.dequeue(), TOLERANCE);
+        
+        testDouble.enqueue(1.0);
+        assertEquals("Should equal 1.0", 1.0, testDouble.dequeue(), TOLERANCE);
+        testDouble.enqueue(2.0);
+        assertEquals("Should equal 2.0", 2.0, testDouble.dequeue(), TOLERANCE);
+        testDouble.enqueue(3.0);
+        assertEquals("Should equal 3.0", 3.0, testDouble.dequeue(), TOLERANCE);
+    
+        //Testing Queue of Strings
+        Queue<String> testString= new Queue<>();
+        testString.enqueue("Hello");
+        testString.enqueue("World");
+        testString.enqueue("!");
+        assertEquals("Should equal 'Hello'", "Hello", testString.dequeue());
+        assertEquals("Should equal 'World'", "World", testString.dequeue());
+        assertEquals("Should equal '!'", "!", testString.dequeue());
+        
+        testString.enqueue("Hello");
+        assertEquals("Should equal 'Hello'", "Hello", testString.dequeue());
+        testString.enqueue("World");
+        assertEquals("Should equal 'World'", "World", testString.dequeue());
+        testString.enqueue("!");
+        assertEquals("Should equal '!'", "!", testString.dequeue());
+    }
+    
+    /**
+     * Test method for when Dequeue method is called on an empty queue.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testDequeueThrow() { 
+        //Testing Queue of Doubles
+        Queue<Double> testDouble= new Queue<>();
+        testDouble.dequeue();
+        
+        //Testing Queue of String
+        Queue<String> testString= new Queue<>();
+        testString.dequeue();
+    }
+
+    /**
+     * Test method for peek method.
+     */
+    @Test
+    public void testPeek() {
+        //Testing Queue of Doubles
+        Queue<Double> testDouble= new Queue<>();
+        testDouble.enqueue(4.0);
+        testDouble.enqueue(5.0);
+        testDouble.enqueue(6.0);
+        assertEquals("Should equal 4.0", 4.0, testDouble.peek(), TOLERANCE);
+        assertEquals("Should equal 4.0", 4.0, testDouble.peek(), TOLERANCE);
+        testDouble.dequeue();
+        assertEquals("Should equal 5.0", 5.0, testDouble.peek(), TOLERANCE);
+        testDouble.dequeue();
+        assertEquals("Should equal 6.0", 6.0, testDouble.peek(), TOLERANCE);
+        
+        //Testing Queue of Strings
+        Queue<String> testString= new Queue<>();
+        testString.enqueue("Hello");
+        testString.enqueue("World");
+        testString.enqueue("!");
+        assertEquals("Should equal 'Hello'", "Hello", testString.peek());
+        assertEquals("Should equal 'Hello'", "Hello", testString.peek());
+        testString.dequeue();
+        assertEquals("Should equal 'World'", "World", testString.peek());
+        testString.dequeue();
+        assertEquals("Should equal '!'", "!", testString.dequeue());
+    }
+    
+    /**
+     * Test method for when peek method is called on an empty queue.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testPeekThrow() { 
+        //Testing Queue of Doubles
+        Queue<Double> testDouble= new Queue<>();
+        testDouble.peek();
+        
+        //Testing Queue of String
+        Queue<String> testString= new Queue<>();
+        testString.peek();
+    }
+
+    /**
+     * Test method for toString method.
+     */
+    @Test
+    public void testToString() { 
+        //Testing Queue of Doubles
+        Queue<Double> testDouble= new Queue<>();
+        assertEquals("Empty", "", testDouble.toString());
+        testDouble.enqueue(1.0);
+        assertEquals("One element", "1.0", testDouble.toString());
+        testDouble.enqueue(2.0);
+        assertEquals("Two elements", "1.02.0", testDouble.toString());
+        testDouble.enqueue(3.0);
+        assertEquals("Three elements", "1.02.03.0", testDouble.toString());
+        testDouble.dequeue();
+        assertEquals("Two elements", "2.03.0", testDouble.toString());
+        
+        Queue<Double> testDouble2 = testDouble.copy();
+        assertEquals("Two elements", "2.03.0", testDouble2.toString());
+        
+        //Testing Queue of String
+        Queue<String> testString= new Queue<>();
+        assertEquals("Empty", "", testString.toString());
+        testString.enqueue("I");
+        assertEquals("One element", "I", testString.toString());
+        testString.enqueue("Love");
+        assertEquals("Two element", "ILove", testString.toString());
+        testString.enqueue("Dogs");
+        assertEquals("Three element", "ILoveDogs", testString.toString());
+        testString.dequeue();
+        assertEquals("Two elements", "LoveDogs", testString.toString());
+        
+        Queue<String> testString2= testString.copy();
+        assertEquals("Two elements", "LoveDogs", testString2.toString());
+    }
+
+    /**
+     * Test method for append.
+     */
+    @Test
+    public void testAppend() { // try to use append for empty queue
+        //Testing Queue of Doubles
+        Queue<Double> testDouble1= new Queue<>();
+        testDouble1.enqueue(1.0);
+        testDouble1.enqueue(2.0);
+        testDouble1.enqueue(3.0);
+        assertEquals("Queue1", "1.02.03.0", testDouble1.toString());
+        
+        Queue<Double> testDouble2= new Queue<>();
+        testDouble2.enqueue(4.0);
+        testDouble2.enqueue(5.0);
+        testDouble2.enqueue(6.0);
+        assertEquals("Queue2", "4.05.06.0", testDouble2.toString());
+        
+        testDouble1.append(testDouble2);
+        assertEquals("Queue1 + Queue2", "1.02.03.04.05.06.0", 
+                      testDouble1.toString());
+        
+        testDouble1.append(testDouble2);
+        assertEquals("Queue1 + Queue2 + Queue2", "1.02.03.04.05.06.04.05.06.0", 
+                      testDouble1.toString());
+        
+        Queue<Double> testDouble3= new Queue<>();
+        testDouble1.append(testDouble3);
+        assertEquals("Queue1 + Queue2 + Queue2 + Queue3", 
+                      "1.02.03.04.05.06.04.05.06.0", testDouble1.toString());
+        
+        //Testing Queue of String
+        Queue<String> testString1= new Queue<>();
+        testString1.enqueue("Hello");
+        testString1.enqueue("World");
+        testString1.enqueue("!");
+        assertEquals("String1", "HelloWorld!", testString1.toString());
+        
+        Queue<String> testString2= new Queue<>();
+        testString2.enqueue("I");
+        testString2.enqueue("Love");
+        testString2.enqueue("Dogs");
+        assertEquals("String2", "ILoveDogs", testString2.toString());
+        
+        testString1.append(testString2);
+        assertEquals("String1 + String2", "HelloWorld!ILoveDogs", 
+                      testString1.toString());
+        
+        testString1.append(testString2);
+        assertEquals("String1 + String2 + String2", 
+                     "HelloWorld!ILoveDogsILoveDogs", testString1.toString());
+        
+        Queue<String> testString3= new Queue<>();
+        testString1.append(testString3);
+        assertEquals("String1 + String2 + String2 + String3", 
+                     "HelloWorld!ILoveDogsILoveDogs",  testString1.toString());
+    }
+
+    /**
+     * Test method for equals.
+     */
+    @Test
+    public void testEquals() { 
+        //Testing Queue of Doubles
+        Queue<Double> testDouble1= new Queue<>();
+        testDouble1.enqueue(1.0);
+        testDouble1.enqueue(2.0);
+        testDouble1.enqueue(3.0);
+        
+        Queue<Double> testDouble2 = testDouble1.copy();
+        assertTrue("Queue1 and Queue2", testDouble1.equals(testDouble2));
+        assertTrue("Queue2 and Queue1", testDouble2.equals(testDouble1));
+        
+        Queue<Double> testDouble3 = testDouble1.copy();
+        testDouble3.enqueue(1.0);
+        assertFalse("Queue1 and Queue3", testDouble1.equals(testDouble3));
+        assertFalse("Queue3 and Queue1", testDouble3.equals(testDouble1));
+        
+        Queue<Double> testDouble4 = testDouble1.copy();
+        Queue<Double> testDouble5 = testDouble1.copy();
+        assertTrue("Queue1 and Queue2", testDouble4.equals(testDouble5));
+        
+        //Testing Queue of String
+        Queue<String> testString1= new Queue<>();
+        testString1.enqueue("I");
+        testString1.enqueue("Love");
+        testString1.enqueue("Dogs");
+        
+        Queue<String> testString2 = testString1.copy();
+        assertTrue("String1 and String2", testString1.equals(testString2));
+        assertTrue("String2 and String1", testString2.equals(testString1));
+        
+        Queue<String> testString3= new Queue<>();
+        testString1.enqueue("I");
+        assertFalse("String1 and String3", testString1.equals(testString3));
+        assertFalse("String3 and String1", testString3.equals(testString1));
+        
+        Queue<String> testString4= new Queue<>();
+        Queue<String> testString5= new Queue<>();
+        assertTrue("String4 and String5", testString4.equals(testString5));
+    }
+
+    /**
+     * Test method for copy.
+     */
+    @Test
+    public void testCopy() {
+        //Testing Queue of Doubles
+        Queue<Double> testDouble1= new Queue<>();
+        Queue<Double> testDouble3= new Queue<>();
+        assertTrue("Queue1 and Queue3", testDouble1.equals(testDouble3));
+        
+        testDouble1.enqueue(1.0);
+        testDouble1.enqueue(2.0);
+        testDouble1.enqueue(3.0);
+        
+        Queue<Double> testDouble2 = testDouble1.copy();
+        assertNotSame("Should not be same object", testDouble1, testDouble2);
+        assertTrue("Queue1 and Queue2", testDouble1.equals(testDouble2));
+        assertEquals("Queue1 and Queue2", testDouble2.toString(), 
+                     testDouble1.toString());
+        
+        Queue<Double> testDouble4 = testDouble3.copy();
+        assertNotSame("Should not be same object", testDouble3, testDouble4);
+        assertTrue("Queue3 and Queue4", testDouble3.equals(testDouble4));
+        
+        //Testing Queue of String
+        Queue<String> testString1= new Queue<>();
+        Queue<String> testString3= new Queue<>();
+        assertTrue("Queue1 and Queue3", testString1.equals(testString3));
+        
+        testString1.enqueue("I");
+        testString1.enqueue("Love");
+        testString1.enqueue("Dogs");
+        
+        Queue<String> testString2 = testString1.copy();
+        assertNotSame("Should not be same object", testString1, testString2);
+        assertTrue("String1 and String2", testString1.equals(testString2));
+        assertEquals("String1 and String2", testString1.toString(), 
+                      testString2.toString());
+        
+        Queue<String> testString4 = testString3.copy();
+        assertNotSame("Should not be same object", testString3, testString4);
+        assertTrue("Queue3 and Queue4", testString3.equals(testString4));
+    }
+
+    /**
+     * Test method for empty.
+     */
+    @Test
+    public void testEmpty() {
+        //Testing Queue of Doubles
+        Queue<Double> testDouble1= new Queue<>();
+        assertTrue("after construction" , testDouble1.empty());
+        testDouble1.enqueue(1.0);
+        assertFalse("after enqueue" , testDouble1.empty());
+        testDouble1.peek();
+        assertFalse("peek after enqueue" , testDouble1.empty());
+        testDouble1.dequeue();
+        assertTrue("after dequeue" , testDouble1.empty()); 
+        
+        //Testing Queue of String
+        Queue<String> testString1= new Queue<>();
+        assertTrue("after construction" , testString1.empty());
+        testString1.enqueue("Hello");
+        assertFalse("after enqueue" , testString1.empty());
+        testString1.peek();
+        assertFalse("peek after enqueue" , testString1.empty());
+        testString1.dequeue();
+        assertTrue("after dequeue" , testString1.empty());
+        
+    }
+}
